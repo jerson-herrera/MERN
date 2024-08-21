@@ -1,0 +1,2 @@
+//Es lo que garantiza que los tokens JWT que se crean.sean aunicos, autenticos y seguros.Cada token que genero estara firmado con esta clave. Asi que esta clave debe mantenerse segura y privada.
+export const TOKEN_SECRET = "some secret key"; 
