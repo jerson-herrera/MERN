@@ -13,6 +13,12 @@ const taksSchema = new mongoose.Schema({
     dateToFinish:{
         type:Date,
         default:Date.now,
+    },
+    user:{  //este es el user Id al que pertenece
+        type:mongoose.Schema.Types.ObjectId, //El id en mongodb es no es un tipo String,es tipo objectId un tipo de dato especial en mongodb
+        ref:"User", //Esta referenciando a otro modelo en este caso el model USER
+        require:true
+
     }
 },{
     timestamps:true
