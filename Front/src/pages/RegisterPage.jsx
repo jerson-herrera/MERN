@@ -1,82 +1,121 @@
-import React, { useState } from 'react';
-import { registerRequest } from '../api/auth';
+// import React, { useState } from 'react';
+// import { registerRequest } from '../api/auth';
+// export const RegisterPage = () => {
+//     const [formData, setFormData] = useState({
+//         username: '',
+//         password: '',
+//         email: ''
+//     });
+
+//     // handleChange es una función que se ejecuta cada vez que el usuario escribe en uno de los campos del formulario.
+//     const handleChange = (e) => {
+//         const { name, value } = e.target; //e.target representa el elemento (input)
+//         setFormData({
+//             ...formData,
+//             [name]: value
+//         });
+//     };
+//     //es la función que se ejecuta cuando el formulario es enviado
+//     const handleSubmit = async (e) => {
+//         e.preventDefault(); //Evita que la página se recargue al enviar el formulario
+//         console.log('Datos del formulario:', formData);
+//         // Aquí puedes hacer una solicitud al backend para registrar al usuario
+//         try {
+//             // Llamada a la función registerRequest con los datos del formulario
+//             const response = await registerRequest(formData);
+//             console.log('Respuesta del servidor:', response);
+
+//             // Aquí podrías manejar la respuesta, como redirigir al usuario o mostrar un mensaje de éxito
+//         } catch (error) {
+//             console.error('Error en el registro:', error);
+//             // Aquí podrías manejar los errores, como mostrar un mensaje de error al usuario
+//         }
+//     };
+
+//     return (
+//         <div className=' bg-zinc-800 max-w-md p-10 rounden-md'>
+//             <form onSubmit={handleSubmit}>
+//                 <div>
+//                     <label htmlFor="username">Username:</label>
+//                     <input
+//                         type="text" //tipo de input
+//                         id="username" //Un id que debe coincidir con el htmlFor del <label>.
+//                         name="username" //Un name que se usa en handleChange para actualizar el  estado correcto.
+//                         value={formData.username} //Un value que vincula el input con el estado.
+//                         onChange={handleChange} //Un onChange que llama a handleChange cada vez que el usuario escribe en el campo.
+//                         required //asegura que el formulario no se puede enviar si el campo está vacío.
+//                         placeholder='Username'
+//                         className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
+//                     />
+//                 </div>
+//                 <div>
+//                     <label htmlFor="password">Password:</label>
+//                     <input
+//                         type="password"
+//                         id="password"
+//                         name="password"
+//                         value={formData.password}
+//                         onChange={handleChange}
+//                         required
+//                         placeholder='Password'
+//                         className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
+//                     />
+//                 </div>
+//                 <div>
+//                     <label htmlFor="email">Email:</label>
+//                     <input
+//                         type="email"
+//                         id="email"
+//                         name="email"
+//                         value={formData.email}
+//                         onChange={handleChange}
+//                         required
+//                         placeholder='Email'
+//                         className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
+//                     />
+//                 </div>
+//                 <button type="submit">Registrarse</button>
+//             </form>
+//         </div>
+//     );
+// }
+
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
 export const RegisterPage = () => {
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-        email: ''
-    });
+  const { register, handleSubmit } = useForm();
+  const { signup, user } = useAuth();
+  console.log(user);
+  const onSubmit = handleSubmit(async (values) => {
+    signup(values);
+  });
+  return (
+    <div className=" bg-zinc-800 max-w-md p-10 rounden-md">
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          {...register("username", { required: true })}
+          className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+          placeholder="Username"
+        />
 
-    // handleChange es una función que se ejecuta cada vez que el usuario escribe en uno de los campos del formulario.
-    const handleChange = (e) => {
-        const { name, value } = e.target; //e.target representa el elemento (input) 
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
-    //es la función que se ejecuta cuando el formulario es enviado
-    const handleSubmit = async (e) => {
-        e.preventDefault(); //Evita que la página se recargue al enviar el formulario
-        console.log('Datos del formulario:', formData);
-        // Aquí puedes hacer una solicitud al backend para registrar al usuario
-        try {
-            // Llamada a la función registerRequest con los datos del formulario
-            const response = await registerRequest(formData);
-            console.log('Respuesta del servidor:', response);
+        <input
+          type="password"
+          {...register("password", { required: true })}
+          className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+          placeholder="Password"
+        />
 
-            // Aquí podrías manejar la respuesta, como redirigir al usuario o mostrar un mensaje de éxito
-        } catch (error) {
-            console.error('Error en el registro:', error);
-            // Aquí podrías manejar los errores, como mostrar un mensaje de error al usuario
-        }
-    };
+        <input
+          type="email"
+          {...register("email", { required: true })}
+          className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+          placeholder="Email"
+        />
 
-    return (
-        <div className=' bg-zinc-800 max-w-md p-10 rounden-md'>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text" //tipo de input
-                        id="username" //Un id que debe coincidir con el htmlFor del <label>.
-                        name="username" //Un name que se usa en handleChange para actualizar el  estado correcto.
-                        value={formData.username} //Un value que vincula el input con el estado.
-                        onChange={handleChange} //Un onChange que llama a handleChange cada vez que el usuario escribe en el campo.
-                        required //asegura que el formulario no se puede enviar si el campo está vacío.
-                        placeholder='Username'
-                        className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                        placeholder='Password'
-                        className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        placeholder='Email'
-                        className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-                    />
-                </div>
-                <button type="submit">Registrarse</button>
-            </form>
-        </div>
-    );
-}
-
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  );
+};
