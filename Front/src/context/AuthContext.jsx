@@ -12,10 +12,18 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); //Estado
+  const [isAuthenticated, setIsAuthenticaded] = useState(false); //
+  const [errores, setErrors] = useState([])
   const signup = async (user) => {
-    const res = await registerRequest(user);
-    console.log(res.data);
-    setUser(res.data);
+    try {
+      const res = await registerRequest(user);
+      console.log(res.data);
+      setUser(res.data);
+      setIsAuthenticaded(true);
+    } catch (error) {
+      // console.log(error.response)
+      setErrors(error.response.data)
+    }
   };
 
   return (
@@ -23,6 +31,8 @@ export const AuthProvider = ({ children }) => {
       value={{
         signup,
         user,
+        isAuthenticated,
+        errores,
       }}
     >
       {children}

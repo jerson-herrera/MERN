@@ -6,6 +6,8 @@ export const register = async (req, res) => {
     const { email, password, username } = req.body; //Accede al cuerpo de la solicitud
 
     try {
+        const userFound = await User.findOne({email})
+        if(userFound) return res.status(400).json(["The email alredy in use"])
         const passwordHash = await bcrypt.hash(password, 10); //El 10 representa el número de rondas de salting.
         const newUser = new User({
             //Se crea una nueva instancia del model User
