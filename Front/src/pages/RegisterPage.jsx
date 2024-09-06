@@ -83,7 +83,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 export const RegisterPage = () => {
   const {
     register,
@@ -105,6 +105,12 @@ export const RegisterPage = () => {
           {error}
         </div>
       ))}
+      {/* {Array.isArray(errores) &&
+        errores.map((error, i) => (
+          <div className="bg-red-500 p-2 text-white" key={i}>
+            {error}
+          </div>
+        ))} */}
       <form onSubmit={onSubmit}>
         <input
           type="text"
@@ -136,6 +142,12 @@ export const RegisterPage = () => {
 
         <button type="submit">Register</button>
       </form>
+      <p className="flex gap-x-2 justify-between">
+        Ya tiene una cuenta?{" "}
+        <Link to="/login" className="text-sky-500">
+          Sing in
+        </Link>
+      </p>
     </div>
   );
 };
